@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram Dashboard</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+      color: #262626;
+    }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: white;
+      border-bottom: 1px solid #dbdbdb;
+    }
+    .brand {
+      font-family: 'Grand Hotel', cursive;
+      font-size: 42px;
+      margin: 0;
+    }
+    .logout-btn {
+      background: #0095f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .welcome {
+      background: white;
+      border: 1px solid #dbdbdb;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+    .post-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .post {
+      background: white;
+      border: 1px solid #dbdbdb;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .post-image {
+      height: 220px;
+      background: linear-gradient(135deg, #f9d423, #ff4e50);
+    }
+    .post-body {
+      padding: 12px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <h1 class="brand">Instagram</h1>
+    <button class="logout-btn" id="logoutBtn">Log out</button>
+  </nav>
+
+  <main class="container">
+    <div class="welcome">
+      <h2 id="welcomeMessage">Welcome!</h2>
+      <p>Your account is active and your session is working.</p>
+    </div>
+
+    <div class="post-grid">
+      <div class="post">
+        <div class="post-image"></div>
+        <div class="post-body">A nice morning photo.</div>
+      </div>
+      <div class="post">
+        <div class="post-image" style="background: linear-gradient(135deg, #00c6ff, #0072ff);"></div>
+        <div class="post-body">Travel day.</div>
+      </div>
+      <div class="post">
+        <div class="post-image" style="background: linear-gradient(135deg, #a8ff78, #78ffd6);"></div>
+        <div class="post-body">Weekend vibes.</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    async function loadSession() {
+      const response = await fetch('/api/session');
+      const data = await response.json();
+      if (!data.loggedIn) {
+        window.location.href = '/';
+        return;
+      }
+
+      const welcomeMessage = document.getElementById('welcomeMessage');
+      welcomeMessage.textContent = `Welcome, ${data.user.username}!`;
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/logout', { method: 'POST' });
+      window.location.href = '/';
+    });
+
+    loadSession();
+  </script>
+</body>
+</html>

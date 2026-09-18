@@ -1,0 +1,299 @@
+:root{
+  --bg:#fafafa;
+  --card-border:#dbdbdb;
+  --text-primary:#262626;
+  --text-secondary:#8e8e8e;
+  --link-blue:#00376b;
+  --accent-blue:#0095f6;
+  --accent-blue-disabled:#b2dffc;
+  --divider:#dbdbdb;
+  --input-bg:#fafafa;
+  --input-border:#dbdbdb;
+  --footer-bg:#ffffff;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#000000;
+    --card-border:#262626;
+    --text-primary:#f5f5f5;
+    --text-secondary:#a8a8a8;
+    --link-blue:#e0f0ff;
+    --accent-blue:#0095f6;
+    --accent-blue-disabled:#04263f;
+    --divider:#262626;
+    --input-bg:#121212;
+    --input-border:#363636;
+    --footer-bg:#000000;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#000000;
+  --card-border:#262626;
+  --text-primary:#f5f5f5;
+  --text-secondary:#a8a8a8;
+  --link-blue:#e0f0ff;
+  --accent-blue:#0095f6;
+  --accent-blue-disabled:#04263f;
+  --divider:#262626;
+  --input-bg:#121212;
+  --input-border:#363636;
+  --footer-bg:#000000;
+}
+ 
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text-primary);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+ 
+.wrap{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px 16px 8px;
+}
+ 
+.columns{
+  display:flex;
+  align-items:flex-start;
+  gap:36px;
+  max-width:900px;
+  width:100%;
+  justify-content:center;
+}
+ 
+.phone-preview{
+  display:none;
+}
+@media (min-width:735px){
+  .phone-preview{
+    display:block;
+    width:380px;
+    flex-shrink:0;
+  }
+  .phone-preview svg{ width:100%; height:auto; display:block; }
+}
+ 
+.auth-col{
+  width:100%;
+  max-width:350px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+ 
+.card{
+  background:var(--footer-bg);
+  border:1px solid var(--card-border);
+  border-radius:1px;
+  padding:36px 40px 24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+}
+ 
+.logo{
+  font-family:'Grand Hotel', cursive;
+  font-size:52px;
+  line-height:1;
+  color:var(--text-primary);
+  margin:22px 0 30px;
+  -webkit-font-smoothing:antialiased;
+}
+ 
+form{ width:100%; display:flex; flex-direction:column; gap:6px; }
+ 
+.field{
+  position:relative;
+  width:100%;
+}
+.field input{
+  width:100%;
+  background:var(--input-bg);
+  border:1px solid var(--input-border);
+  border-radius:3px;
+  padding:18px 10px 6px 8px;
+  font-size:14px;
+  line-height:16px;
+  color:var(--text-primary);
+  outline:none;
+  height:54px;
+}
+.field input:focus{
+  border-color:#8e8e8e;
+}
+.field label{
+  position:absolute;
+  left:9px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:14px;
+  color:var(--text-secondary);
+  pointer-events:none;
+  transition:top .12s ease, font-size .12s ease;
+  background:transparent;
+  padding:0;
+  max-width:calc(100% - 18px);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.field input:focus + label,
+.field input.filled + label{
+  top:9px;
+  font-size:10px;
+  transform:translateY(0);
+}
+ 
+.show-toggle{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  margin-top:4px;
+  font-size:12px;
+  font-weight:600;
+  color:var(--text-primary);
+  background:none;
+  border:none;
+  cursor:pointer;
+  padding:4px;
+}
+ 
+.login-btn{
+  margin-top:8px;
+  width:100%;
+  background:var(--accent-blue);
+  color:#fff;
+  font-weight:600;
+  font-size:14px;
+  border:none;
+  border-radius:8px;
+  padding:8px 0;
+  cursor:pointer;
+}
+.login-btn:disabled{
+  background:var(--accent-blue-disabled);
+  cursor:default;
+}
+ 
+.divider{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  margin:16px 0 12px;
+  width:100%;
+}
+.divider .line{ flex:1; height:1px; background:var(--divider); }
+.divider span{ font-size:13px; font-weight:600; color:var(--text-secondary); }
+ 
+.fb-login{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  color:#385185;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  background:none;
+  border:none;
+  padding:8px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .fb-login{ color:#5b86e5; }
+}
+:root[data-theme="dark"] .fb-login{ color:#5b86e5; }
+ 
+.forgot{
+  margin-top:12px;
+  font-size:12px;
+  color:var(--link-blue);
+  cursor:pointer;
+  background:none;
+  border:none;
+}
+ 
+.signup-card{
+  background:var(--footer-bg);
+  border:1px solid var(--card-border);
+  border-radius:1px;
+  padding:20px;
+  text-align:center;
+  font-size:14px;
+  width:100%;
+}
+.signup-card a{
+  color:var(--accent-blue);
+  font-weight:600;
+  text-decoration:none;
+  margin-left:4px;
+}
+ 
+.get-app{
+  text-align:center;
+  font-size:14px;
+  margin-top:8px;
+  color:var(--text-primary);
+}
+.badges{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:14px;
+}
+.badges img{ height:40px; }
+ 
+footer{
+  padding:28px 16px 40px;
+  text-align:center;
+  max-width:900px;
+  margin:0 auto;
+  width:100%;
+}
+.footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:16px;
+  font-size:12px;
+  color:var(--text-secondary);
+  margin-bottom:20px;
+}
+.footer-links a{ color:inherit; text-decoration:none; }
+.footer-bottom{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  font-size:12px;
+  color:var(--text-secondary);
+}
+select{
+  background:none;
+  border:none;
+  color:var(--text-secondary);
+  font-size:12px;
+}
+ 
+.visually-hidden{
+  position:absolute; width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);
+}
+ 
+input:focus-visible, button:focus-visible, a:focus-visible{
+  outline:2px solid var(--accent-blue);
+  outline-offset:2px;
+}
+ 
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; animation:none !important; }
+}
+ 

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram Sign Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./public/style.css">
+  <style>
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #fafafa !important;
+      color: #262626 !important;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .auth-box {
+      width: 100%;
+      max-width: 360px;
+      background: #ffffff;
+      border: 1px solid #dbdbdb;
+      border-radius: 1px;
+      padding: 32px 38px 22px;
+      text-align: center;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+    }
+    .auth-box h1 {
+      font-family: 'Grand Hotel', cursive;
+      font-size: 58px;
+      line-height: 1;
+      margin: 0 0 22px;
+      color: #262626;
+      letter-spacing: 0.5px;
+    }
+    .field {
+      position: relative;
+      margin-bottom: 12px;
+    }
+    .field input {
+      width: 100%;
+      background: #fafafa;
+      border: 1px solid #dbdbdb;
+      height: 54px;
+      border-radius: 3px;
+      padding: 18px 10px 6px 8px;
+      font-size: 14px;
+      color: #262626;
+      outline: none;
+    }
+    .field input:focus {
+      border-color: #8e8e8e;
+    }
+    .field label {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #8e8e8e;
+      font-size: 14px;
+      pointer-events: none;
+      transition: 0.12s ease;
+    }
+    .field input:focus + label,
+    .field input.filled + label {
+      top: 9px;
+      font-size: 10px;
+      transform: translateY(0);
+    }
+    .submit-btn {
+      width: 100%;
+      margin-top: 8px;
+      background: #7cc6ff;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 0;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.02);
+    }
+    .submit-btn:disabled {
+      background: #b2dffc;
+      cursor: default;
+    }
+    .switch-link {
+      margin-top: 18px;
+      font-size: 14px;
+      color: #262626;
+    }
+    .switch-link a {
+      color: #0095f6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-box">
+    <h1>Instagram</h1>
+    <form id="signupForm">
+      <div class="field">
+        <input type="text" id="signupUsername" />
+        <label for="signupUsername">Username</label>
+      </div>
+      <div class="field">
+        <input type="password" id="signupPassword" />
+        <label for="signupPassword">Password</label>
+      </div>
+      <button type="submit" class="submit-btn" id="signupBtn" disabled>Sign up</button>
+    </form>
+    <div class="switch-link">
+      Have an account? <a href="/">Log in</a>
+    </div>
+  </div>
+
+  <script>
+    const usernameInput = document.getElementById('signupUsername');
+    const passwordInput = document.getElementById('signupPassword');
+    const signupBtn = document.getElementById('signupBtn');
+    const signupForm = document.getElementById('signupForm');
+
+    function updateState() {
+      const filled = usernameInput.value.trim().length > 0 && passwordInput.value.length > 0;
+      signupBtn.disabled = !filled;
+      usernameInput.classList.toggle('filled', usernameInput.value.length > 0);
+      passwordInput.classList.toggle('filled', passwordInput.value.length > 0);
+    }
+
+    [usernameInput, passwordInput].forEach((input) => {
+      input.addEventListener('input', updateState);
+    });
+
+    signupForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!username || !password) {
+        console.warn('Please enter both username and password.');
+        return;
+      }
+
+      signupBtn.disabled = true;
+      signupBtn.textContent = 'Signing up…';
+
+      try {
+        const response = await fetch('/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          window.location.href = '/?username=' + encodeURIComponent(username);
+        } else {
+          console.warn(data.message || 'Signup failed.');
+        }
+      } catch (error) {
+        console.error('Signup failed. Please try again.', error);
+      } finally {
+        signupBtn.disabled = false;
+        signupBtn.textContent = 'Sign up';
+        updateState();
+      }
+    });
+
+    updateState();
+  </script>
+</body>
+</html>

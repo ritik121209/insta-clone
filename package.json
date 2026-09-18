@@ -1,0 +1,20 @@
+{
+  "name": "insta-clone",
+  "version": "1.0.0",
+  "description": "Instagram-style login page with Node and Express",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^18.0.0",
+    "express": "^4.21.2",
+    "express-session": "^1.19.0",
+    "mongoose": "^9.10.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
